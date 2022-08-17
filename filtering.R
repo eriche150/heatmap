@@ -105,13 +105,25 @@ lungdf2 <- lungdf2 %>%
 
 lungdf3<- lungdf2 %>%
         arrange(Regimen, Time_hrs) #sorts the df to display regimen and then time-hrs in ascending order 
-#turn df into matrix bc heatmaps can only read matrices 
-lungdf_mat<- data.matrix(lungdf3)
+        
 
-heatmap(lungdf_mat,
-        scale="column")
 #Transforming dataframe into a df identical to example shown here: https://jcoliver.github.io/learn-r/006-heatmaps.html
 dflung <- pivot_longer(data = lungdf3,
-                       cols = everything(),
+                       cols = -c("Type","Well","Site","Regimen","Time_hrs"),
                        names_to = "Cytokine_Type",
                        values_to = "Concentration") 
+#heatmap of lung data
+ggplot(data=dflung, mapping = aes(
+        x = Time_hrs, y = Cytokine_Type, fill = Concentration
+)) + 
+        geom_tile()+
+        facet_grid(~Regimen)+
+        theme_bw()+
+        scale_x_continuous(breaks=c(0,10,24,36,48,192,360))
+
+ggplot(data=dflung, mapping = aes(
+        x = Regimen, y = Cytokine_Type, fill = Concentration
+)) +
+        geom_tile()+
+        facet_grid(~Time_hrs)+
+        theme_bw()
