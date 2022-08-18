@@ -11,4 +11,9 @@ ggplot(data=dfphageplasma, mapping = aes(
         geom_tile()+
         theme_bw()+
         ggtitle("Heatmap of [Cytokine] in Plasma for Phage PK")+
-        scale_x_continuous(breaks=c(10,24,36,48))
+        scale_x_continuous(breaks=c(10,24,36,48))+
+        scale_fill_gradient(name = "% Change from 
+Control",
+                            low = "blue",
+                            high="lightpink1")
+

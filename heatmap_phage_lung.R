@@ -11,4 +11,8 @@ ggplot(data=dfphagelung, mapping = aes(
         geom_tile()+
         theme_bw()+
         ggtitle("Heatmap of [Cytokine] in Lung for Phage PK")+
-        scale_x_continuous(breaks=c(0,10,24,36,48,192,360))
+        scale_x_continuous(breaks=c(10,24,36,48))+
+        scale_fill_gradient(name = "% Change from 
+Control",
+                            low = "blue",
+                            high="lightpink1")

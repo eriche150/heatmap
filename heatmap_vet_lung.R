@@ -4,11 +4,16 @@ dflung <- pivot_longer(data = lungdf3,
                        names_to = "Cytokine_Type",
                        values_to = "Concentration") 
 dfVETDEXlung <- dflung %>% 
-        filter(Regimen == "VET_DEX")
+        filter(Regimen == "VET_DEX") %>% 
+        mutate(Concentration.sqrt=if_else(Concentration > 0, sqrt(Concentration),sqrt(abs(Concentration))*-1))
 ggplot(data=dfVETDEXlung, mapping = aes(
-        x = Time_hrs, y = Cytokine_Type, fill = Concentration
+        x = Time_hrs, y = Cytokine_Type, fill = Concentration.sqrt
 )) + 
         geom_tile()+
         theme_bw()+
-        ggtitle("Heatmap of [Cytokine] in Lung for VET+DEX")+
-        scale_x_continuous(breaks=c(192,360))
+        ggtitle("Heatmap of sqrt[Cytokine] in Lung for VET+DEX")+
+        scale_x_continuous(breaks=c(192,360))+
+        scale_fill_gradient(name = "% Change from 
+Control",
+                            low = "skyblue",
+                            high = "lightpink1")
